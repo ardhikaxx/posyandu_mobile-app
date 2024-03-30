@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:posyandu_app/components/navbottom.dart';
+import 'package:posyandu_app/model/user.dart';
 
 class Education extends StatefulWidget {
-  const Education({super.key});
+  final User user;
+  
+  const Education({super.key, required this.user});
 
   @override
   State<Education> createState() => _EducationState();
 }
 
 class _EducationState extends State<Education> {
+  late User? loggedInUser = User(email: '', password: '');
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +32,9 @@ class _EducationState extends State<Education> {
             Icons.arrow_back_rounded,
             color: Color(0xFF0F6ECD),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Get.offUntil(MaterialPageRoute(builder: (context) => NavigationButtom(user: loggedInUser!)), (route) => route.isFirst);
+          },
         ),
         titleSpacing: 0,
       ),
@@ -53,11 +62,11 @@ class _EducationState extends State<Education> {
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: const Offset(0, 2),
-                  ),
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
               ],
             ),
             width: 317,
@@ -81,11 +90,11 @@ class _EducationState extends State<Education> {
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
                 BoxShadow(
-                    color: Colors.grey.withOpacity(0.3),
-                    spreadRadius: 3,
-                    blurRadius: 5,
-                    offset: const Offset(0, 2),
-                  ),
+                  color: Colors.grey.withOpacity(0.3),
+                  spreadRadius: 3,
+                  blurRadius: 5,
+                  offset: const Offset(0, 2),
+                ),
               ],
             ),
             width: 317,

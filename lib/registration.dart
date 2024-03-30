@@ -3,6 +3,7 @@ import 'package:posyandu_app/model/database_helper.dart';
 import 'main.dart';
 import 'model/user.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
+import 'package:get/get.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -36,49 +37,50 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController passwordController = TextEditingController();
 
   void registerButtonPressed(BuildContext context) async {
-  if (_formKey.currentState!.validate()) {
-    User newUser = User(
-      email: emailController.text,
-      nikIbu: nikIbuController.text,
-      namaIbu: namaIbuController.text,
-      gender: selectedGender,
-      placeOfBirth: placeOfBirthController.text,
-      birthDate: birthDateController.text,
-      alamat: alamatController.text,
-      telepon: teleponController.text,
-      password: passwordController.text,
-    );
+    if (_formKey.currentState!.validate()) {
+      User newUser = User(
+        email: emailController.text,
+        nikIbu: nikIbuController.text,
+        namaIbu: namaIbuController.text,
+        gender: selectedGender,
+        placeOfBirth: placeOfBirthController.text,
+        birthDate: birthDateController.text,
+        alamat: alamatController.text,
+        telepon: teleponController.text,
+        password: passwordController.text,
+      );
 
-    int success = await LocalDatabase().insertData(newUser);
+      int success = await LocalDatabase().insertData(newUser);
 
-    if (success == 1) {
-      AwesomeDialog(
-        // ignore: use_build_context_synchronously
-        context: context,
-        dialogType: DialogType.success,
-        animType: AnimType.bottomSlide,
-        title: 'Sukses',
-        desc: 'Data berhasil terdaftar!',
-      ).show();
-      
-      Future.delayed(const Duration(seconds: 2), () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => const LoginPage()),
-        );
-      });
-    } else {
-      AwesomeDialog(
-        // ignore: use_build_context_synchronously
-        context: context,
-        dialogType: DialogType.error,
-        animType: AnimType.bottomSlide,
-        title: 'Error',
-        desc: 'Gagal mendaftarkan data. Silakan coba lagi nanti.',
-      ).show();
+      if (success == 1) {
+        AwesomeDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          dialogType: DialogType.success,
+          animType: AnimType.bottomSlide,
+          title: 'Sukses',
+          desc: 'Data berhasil terdaftar!',
+        ).show();
+
+        Future.delayed(const Duration(seconds: 2), () {
+          Get.off(() => const LoginPage());
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => const LoginPage()),
+          // );
+        });
+      } else {
+        AwesomeDialog(
+          // ignore: use_build_context_synchronously
+          context: context,
+          dialogType: DialogType.error,
+          animType: AnimType.bottomSlide,
+          title: 'Error',
+          desc: 'Gagal mendaftarkan data. Silakan coba lagi nanti.',
+        ).show();
+      }
     }
   }
-}
 
   @override
   Widget build(BuildContext context) {

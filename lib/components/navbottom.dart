@@ -24,7 +24,7 @@ class _NavigationButtomState extends State<NavigationButtom> {
   void initState() {
     _widgetOptions = <Widget>[
       DashboardPage(user: widget.user),
-      const Education(),
+      Education(user: widget.user,),
       const Grafik(),
       const Imunisasi(),
       Profile(user: widget.user),
