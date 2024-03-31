@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:posyandu_app/components/navbottom.dart';
+import 'package:posyandu_app/model/user.dart';
 
 class Imunisasi extends StatefulWidget {
-  const Imunisasi({super.key});
+  final User user;
+  const Imunisasi({super.key, required this.user});
 
   @override
   State<Imunisasi> createState() => _ImunisasiState();
 }
 
 class _ImunisasiState extends State<Imunisasi> {
+  late User? loggedInUser = User(email: '', password: '');
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -28,6 +33,7 @@ class _ImunisasiState extends State<Imunisasi> {
             color: Color(0xFF0F6ECD),
           ),
           onPressed: () {
+            Get.offUntil(MaterialPageRoute(builder: (context) => NavigationButtom(user: loggedInUser!)), (route) => route.isFirst);
           },
         ),
         titleSpacing: 0,
