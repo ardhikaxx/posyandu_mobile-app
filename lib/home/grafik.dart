@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:posyandu_app/components/navbottom.dart';
+import 'package:posyandu_app/model/user.dart';
 
 class Grafik extends StatefulWidget {
-  const Grafik({super.key});
+  final User user;
+  const Grafik({super.key, required this.user});
 
   @override
   State<Grafik> createState() => _GrafikState();
 }
 
 class _GrafikState extends State<Grafik> {
+  late User? loggedInUser = User(email: '', password: '');
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -28,6 +33,7 @@ class _GrafikState extends State<Grafik> {
             color: Color(0xFF0F6ECD),
           ),
           onPressed: () {
+            Get.offUntil(MaterialPageRoute(builder: (context) => NavigationButtom(user: loggedInUser!)), (route) => route.isFirst);
             // Action when back arrow is pressed
           },
         ),
