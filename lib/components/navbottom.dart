@@ -25,8 +25,8 @@ class _NavigationButtomState extends State<NavigationButtom> {
     _widgetOptions = <Widget>[
       DashboardPage(user: widget.user),
       Education(user: widget.user,),
-      const Grafik(),
-      const Imunisasi(),
+      Grafik(user: widget.user),
+      Imunisasi(user: widget.user),
       Profile(user: widget.user),
     ];
     super.initState();
@@ -49,7 +49,7 @@ class _NavigationButtomState extends State<NavigationButtom> {
         child: BottomNavigationBar(
           items: <BottomNavigationBarItem>[
             _buildNavBarItem(Icons.home, "Home", 0),
-            _buildNavBarItem(Icons.article, "Edukasi", 1),
+            _buildNavBarItem(Icons.article, "Artikel", 1),
             _buildNavBarItem(Icons.insert_chart, "Grafik", 2),
             _buildNavBarItem(Icons.medical_services, "Imunisasi", 3),
             _buildNavBarItem(Icons.person_2_rounded, "Profile", 4),
