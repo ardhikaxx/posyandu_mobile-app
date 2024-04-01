@@ -55,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 const Padding(
                   padding: EdgeInsets.fromLTRB(20, 20, 20, 5),
                   child: Text(
-                    'Selamat Datang!', // Menggunakan nama dari database
+                    'Selamat Datang!',
                     style: TextStyle(
                       fontSize: 28,
                       fontWeight: FontWeight.bold,

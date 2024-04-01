@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:posyandu_app/components/navbottom.dart';
+import 'package:posyandu_app/model/database_helper.dart';
 import 'package:posyandu_app/model/user.dart';
 
 class Grafik extends StatefulWidget {
@@ -13,7 +14,19 @@ class Grafik extends StatefulWidget {
 
 class _GrafikState extends State<Grafik> {
   late User? loggedInUser = User(email: '', password: '');
+  final LocalDatabase localDb = LocalDatabase();
   final TextEditingController _searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchLoggedInUser();
+  }
+
+  Future<void> _fetchLoggedInUser() async {
+    loggedInUser = await localDb.getUserByEmail(widget.user.email);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +47,6 @@ class _GrafikState extends State<Grafik> {
           ),
           onPressed: () {
             Get.offUntil(MaterialPageRoute(builder: (context) => NavigationButtom(user: loggedInUser!)), (route) => route.isFirst);
-            // Action when back arrow is pressed
           },
         ),
         titleSpacing: 0,

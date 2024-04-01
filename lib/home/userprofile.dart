@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 // ignore: unnecessary_import
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:posyandu_app/home/editprofile.dart';
 import 'package:posyandu_app/main.dart';
 import 'package:posyandu_app/model/user.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
@@ -20,7 +21,6 @@ class Profile extends StatefulWidget {
 class _ProfileState extends State<Profile> {
   late User? loggedInUser = User(email: '', password: '');
   final LocalDatabase localDb = LocalDatabase();
-  bool isSwitched = true;
 
   @override
   void initState() {
@@ -81,8 +81,7 @@ class _ProfileState extends State<Profile> {
             decoration: const BoxDecoration(
               color: Color(0xFF0F6ECD),
               borderRadius: BorderRadius.only(
-                bottomLeft:
-                    Radius.circular(25),
+                bottomLeft: Radius.circular(25),
                 bottomRight: Radius.circular(25),
               ),
             ),
@@ -138,7 +137,7 @@ class _ProfileState extends State<Profile> {
               ],
             ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 50),
           _buildEditButton(),
           const SizedBox(height: 20),
           _buildLogoutButton(),
@@ -153,18 +152,45 @@ class _ProfileState extends State<Profile> {
       child: SizedBox(
         width: double.infinity,
         height: 55,
-        child: ElevatedButton.icon(
+        child: ElevatedButton(
           onPressed: () {
-            
+            Get.to(const EditProfile());
           },
-          icon: const Icon(Icons.edit, color: Colors.white),
-          label: const Text(
-            'Edit',
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-          ),
           style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF0F6ECD),
+            backgroundColor: const Color(0xFFF3F8FE),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.only(right: 10),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(
+                        12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0F6ECD),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child:
+                        const Icon(Icons.edit, color: Colors.white, size: 30),
+                  ),
+                  const SizedBox(width: 15),
+                  const Text(
+                    'Edit',
+                    style: TextStyle(
+                      color: Color(0xFF0F6ECD), // Text color
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
+                  ),
+                ],
+              ),
+              const Icon(Icons.arrow_forward_ios, color: Color(0xFF0F6ECD), size: 25),
+            ],
           ),
         ),
       ),
@@ -172,28 +198,52 @@ class _ProfileState extends State<Profile> {
   }
 
   Widget _buildLogoutButton() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 35),
-      child: SizedBox(
-        width: double.infinity,
-        height: 55,
-        child: ElevatedButton.icon(
-          onPressed: () {
-            _showLogoutConfirmation();
-          },
-          icon: const Icon(Icons.logout, color: Colors.white),
-          label: const Text(
-            'Logout',
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+  return Container(
+    margin: const EdgeInsets.symmetric(horizontal: 35),
+    child: SizedBox(
+      width: double.infinity,
+      height: 55,
+      child: ElevatedButton(
+        onPressed: () {
+          _showLogoutConfirmation();
+        },
+        style: ElevatedButton.styleFrom(
+            backgroundColor: const Color(0xFFF3F8FE),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+            padding: const EdgeInsets.only(right: 10),
           ),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: const Color(0xFF0F6ECD),
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF0F6ECD),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Icon(Icons.logout, color: Colors.white, size: 30),
+                ),
+                const SizedBox(width: 15),
+                const Text(
+                  'Logout',
+                  style: TextStyle(
+                    color: Color(0xFF0F6ECD),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20,
+                  ),
+                ),
+              ],
+            ),
+          ],
         ),
       ),
-    );
-  }
+    ),
+  );
+}
 
   void _showLogoutConfirmation() {
     AwesomeDialog(
