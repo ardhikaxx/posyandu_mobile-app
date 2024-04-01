@@ -58,7 +58,9 @@ class _SplashScreenState extends State<SplashScreen>
     Timer(
       const Duration(seconds: 3),
       () {
-        Get.off(() => const LoginPage(), transition: Transition.fadeIn, duration: const Duration(milliseconds: 1500));
+        Get.off(() => const LoginPage(),
+            transition: Transition.fadeIn,
+            duration: const Duration(milliseconds: 1500));
       },
     );
   }
@@ -366,6 +368,9 @@ class _LoginPageState extends State<LoginPage> {
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color(0xFF0F6ECD),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
                   onPressed: _login,
                   child: const Text(
@@ -373,7 +378,7 @@ class _LoginPageState extends State<LoginPage> {
                     style: TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
-                        fontSize: 20),
+                        fontSize: 18),
                   ),
                 ),
               ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:posyandu_app/components/navbottom.dart';
+import 'package:posyandu_app/model/database_helper.dart';
 import 'package:posyandu_app/model/user.dart';
 
 class Education extends StatefulWidget {
@@ -14,6 +15,18 @@ class Education extends StatefulWidget {
 
 class _EducationState extends State<Education> {
   late User? loggedInUser = User(email: '', password: '');
+  final LocalDatabase localDb = LocalDatabase();
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchLoggedInUser();
+  }
+
+  Future<void> _fetchLoggedInUser() async {
+    loggedInUser = await localDb.getUserByEmail(widget.user.email);
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {

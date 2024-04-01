@@ -644,13 +644,15 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     },
                   ),
                   const SizedBox(height: 20),
-                  Container(
+                  SizedBox(
                     width: double.infinity,
-                    margin: const EdgeInsets.symmetric(horizontal: 20),
                     height: 55,
                     child: ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: const Color(0xFF0F6ECD),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                       onPressed: () => registerButtonPressed(context),
                       child: const Text(

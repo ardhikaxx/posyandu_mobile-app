@@ -7,7 +7,7 @@ import 'package:posyandu_app/home/imunisasi.dart';
 import 'package:posyandu_app/model/user.dart';
 
 class NavigationButtom extends StatefulWidget {
-  final User user; // Tambahkan argumen user
+  final User user;
 
   const NavigationButtom({super.key, required this.user});
 
