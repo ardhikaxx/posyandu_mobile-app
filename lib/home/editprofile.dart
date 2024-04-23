@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:posyandu_app/model/database_helper.dart';
-import 'package:posyandu_app/model/user.dart';
+import 'package:get/get.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -10,15 +9,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  late User? loggedInUser = User(email: '', password: '');
-  final LocalDatabase localDb = LocalDatabase();
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +28,7 @@ class _EditProfileState extends State<EditProfile> {
             color: Color(0xFF0F6ECD),
           ),
           onPressed: () {
-            // Navigasi kembali ke halaman Profile
-            Navigator.pop(context);
+            Get.back();
           },
         ),
         titleSpacing: 0,
@@ -61,21 +50,6 @@ class _EditProfileState extends State<EditProfile> {
             ),
           ),
         ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Profile',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Settings',
-          ),
-        ],
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue,
-        onTap: _onItemTapped,
       ),
     );
   }

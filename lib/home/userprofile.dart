@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
-// ignore: unnecessary_import
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:posyandu_app/controller/AuthController.dart';
 import 'package:posyandu_app/home/editprofile.dart';
-import 'package:posyandu_app/main.dart';
-import 'package:posyandu_app/model/user.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:posyandu_app/components/navbottom.dart';
-import 'package:posyandu_app/model/database_helper.dart';
+import 'package:posyandu_app/model/user.dart';
 
 class Profile extends StatefulWidget {
-  final User user;
-
-  const Profile({super.key, required this.user});
+  final UserData userData;
+  const Profile({super.key, required this.userData});
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  late User? loggedInUser = User(email: '', password: '');
-  final LocalDatabase localDb = LocalDatabase();
+  late UserData userData;
+  late String token;
+  late AuthController authController;
 
   @override
   void initState() {
     super.initState();
-    _fetchLoggedInUser();
-  }
-
-  Future<void> _fetchLoggedInUser() async {
-    loggedInUser = await localDb.getUserByEmail(widget.user.email);
-    setState(() {});
+    authController = Get.put(AuthController());
+    token = AuthController.getToken();
+    userData = widget.userData;
   }
 
   @override
@@ -46,31 +39,14 @@ class _ProfileState extends State<Profile> {
             fontSize: 25,
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Colors.white,
-          ),
-          onPressed: () {
-            if (loggedInUser != null) {
-              Get.offUntil(MaterialPageRoute(builder: (context) => NavigationButtom(user: loggedInUser!)), (route) => route.isFirst);
-            }
-          },
-        ),
-        titleSpacing: 0,
+        titleSpacing: 20,
+        automaticallyImplyLeading: false,
       ),
-      body:
-          loggedInUser == null ? _buildLoadingIndicator() : _buildProfileBody(),
+      body: _buildProfileBody(token),
     );
   }
 
-  Widget _buildLoadingIndicator() {
-    return const Center(
-      child: CircularProgressIndicator(),
-    );
-  }
-
-  Widget _buildProfileBody() {
+  Widget _buildProfileBody(String token) {
     return Padding(
       padding: EdgeInsets.zero,
       child: Column(
@@ -115,7 +91,7 @@ class _ProfileState extends State<Profile> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      widget.user.namaIbu ?? 'Tidak tersedia',
+                      widget.userData.namaIbu,
                       style: const TextStyle(
                         fontSize: 30,
                         color: Colors.white,
@@ -124,7 +100,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     const SizedBox(height: 1),
                     Text(
-                      widget.user.nikIbu ?? 'Tidak tersedia',
+                      widget.userData.nikIbu,
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
@@ -140,7 +116,7 @@ class _ProfileState extends State<Profile> {
           const SizedBox(height: 50),
           _buildEditButton(),
           const SizedBox(height: 20),
-          _buildLogoutButton(),
+          _buildLogoutButton(token),
         ],
       ),
     );
@@ -154,7 +130,7 @@ class _ProfileState extends State<Profile> {
         height: 55,
         child: ElevatedButton(
           onPressed: () {
-            Get.to(const EditProfile());
+            Get.to(() => const EditProfile());
           },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFFF3F8FE),
@@ -169,8 +145,7 @@ class _ProfileState extends State<Profile> {
               Row(
                 children: [
                   Container(
-                    padding: const EdgeInsets.all(
-                        12),
+                    padding: const EdgeInsets.all(12),
                     decoration: BoxDecoration(
                       color: const Color(0xFF0F6ECD),
                       borderRadius: BorderRadius.circular(10),
@@ -189,7 +164,8 @@ class _ProfileState extends State<Profile> {
                   ),
                 ],
               ),
-              const Icon(Icons.arrow_forward_ios, color: Color(0xFF0F6ECD), size: 25),
+              const Icon(Icons.arrow_forward_ios,
+                  color: Color(0xFF0F6ECD), size: 25),
             ],
           ),
         ),
@@ -197,55 +173,56 @@ class _ProfileState extends State<Profile> {
     );
   }
 
-  Widget _buildLogoutButton() {
-  return Container(
-    margin: const EdgeInsets.symmetric(horizontal: 35),
-    child: SizedBox(
-      width: double.infinity,
-      height: 55,
-      child: ElevatedButton(
-        onPressed: () {
-          _showLogoutConfirmation();
-        },
-        style: ElevatedButton.styleFrom(
+  Widget _buildLogoutButton(String token) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 35),
+      child: SizedBox(
+        width: double.infinity,
+        height: 55,
+        child: ElevatedButton(
+          onPressed: () {
+            _showLogoutConfirmation(token);
+          },
+          style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xFFF3F8FE),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             ),
             padding: const EdgeInsets.only(right: 10),
           ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0F6ECD),
-                    borderRadius: BorderRadius.circular(10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF0F6ECD),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child:
+                        const Icon(Icons.logout, color: Colors.white, size: 30),
                   ),
-                  child: const Icon(Icons.logout, color: Colors.white, size: 30),
-                ),
-                const SizedBox(width: 15),
-                const Text(
-                  'Logout',
-                  style: TextStyle(
-                    color: Color(0xFF0F6ECD),
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
+                  const SizedBox(width: 15),
+                  const Text(
+                    'Logout',
+                    style: TextStyle(
+                      color: Color(0xFF0F6ECD),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
-    ),
-  );
-}
+    );
+  }
 
-  void _showLogoutConfirmation() {
+  void _showLogoutConfirmation(String token) {
     AwesomeDialog(
       context: Get.context!,
       dialogType: DialogType.warning,
@@ -253,8 +230,8 @@ class _ProfileState extends State<Profile> {
       title: 'Konfirmasi',
       desc: 'Apakah Anda yakin ingin logout?',
       btnCancelOnPress: () {},
-      btnOkOnPress: () {
-        Get.offAll(() => const LoginPage());
+      btnOkOnPress: () async {
+        await AuthController.logout(Get.context!, token);
       },
     ).show();
   }
