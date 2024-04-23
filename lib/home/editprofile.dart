@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:posyandu_app/model/database_helper.dart';
-import 'package:posyandu_app/model/user.dart';
+import 'package:get/get.dart';
 
 class EditProfile extends StatefulWidget {
   const EditProfile({super.key});
@@ -10,8 +9,6 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
-  late User? loggedInUser = User(email: '', password: '');
-  final LocalDatabase localDb = LocalDatabase();
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +28,7 @@ class _EditProfileState extends State<EditProfile> {
             color: Color(0xFF0F6ECD),
           ),
           onPressed: () {
-            // Navigasi kembali ke halaman Profile
-            Navigator.pop(context);
+            Get.back();
           },
         ),
         titleSpacing: 0,

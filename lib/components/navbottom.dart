@@ -7,9 +7,8 @@ import 'package:posyandu_app/home/imunisasi.dart';
 import 'package:posyandu_app/model/user.dart';
 
 class NavigationButtom extends StatefulWidget {
-  final User user;
-
-  const NavigationButtom({super.key, required this.user});
+  final UserData userData;
+  const NavigationButtom({super.key, required this.userData});
 
   @override
   State<NavigationButtom> createState() => _NavigationButtomState();
@@ -17,31 +16,48 @@ class NavigationButtom extends StatefulWidget {
 
 class _NavigationButtomState extends State<NavigationButtom> {
   int _selectedIndex = 0;
-
-  late List<Widget> _widgetOptions;
+  late PageController _pageController;
+  late UserData userData;
 
   @override
   void initState() {
-    _widgetOptions = <Widget>[
-      DashboardPage(user: widget.user),
-      Education(user: widget.user,),
-      Grafik(user: widget.user),
-      Imunisasi(user: widget.user),
-      Profile(user: widget.user),
-    ];
+    userData = widget.userData;
+    _pageController = PageController(initialPage: _selectedIndex);
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
   }
 
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.animateToPage(index,
+          duration: const Duration(milliseconds: 300), curve: Curves.ease);
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _widgetOptions.elementAt(_selectedIndex),
+      body: PageView(
+        controller: _pageController,
+        children: <Widget>[
+          DashboardPage(userData: widget.userData),
+          Education(userData: widget.userData),
+          Grafik(userData: widget.userData),
+          Imunisasi(userData: widget.userData),
+          Profile(userData: widget.userData),
+        ],
+        onPageChanged: (index) {
+          setState(() {
+            _selectedIndex = index;
+          });
+        },
+      ),
       bottomNavigationBar: Container(
         decoration: const BoxDecoration(
           color: Color(0xFF0F6ECD),

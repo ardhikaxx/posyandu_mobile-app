@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:posyandu_app/components/navbottom.dart';
-import 'package:posyandu_app/model/database_helper.dart';
-import 'package:posyandu_app/model/user.dart';
 
 class Imunisasi extends StatefulWidget {
-  final User user;
-  const Imunisasi({super.key, required this.user});
+  const Imunisasi({super.key, required userData});
 
   @override
   State<Imunisasi> createState() => _ImunisasiState();
 }
 
 class _ImunisasiState extends State<Imunisasi> {
-  late User? loggedInUser = User(email: '', password: '');
-  final LocalDatabase localDb = LocalDatabase();
   final TextEditingController _searchController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchLoggedInUser();
-  }
-
-  Future<void> _fetchLoggedInUser() async {
-    loggedInUser = await localDb.getUserByEmail(widget.user.email);
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +22,8 @@ class _ImunisasiState extends State<Imunisasi> {
             fontSize: 25,
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Color(0xFF0F6ECD),
-          ),
-          onPressed: () {
-            Get.offUntil(MaterialPageRoute(builder: (context) => NavigationButtom(user: loggedInUser!)), (route) => route.isFirst);
-          },
-        ),
-        titleSpacing: 0,
+        titleSpacing: 20,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

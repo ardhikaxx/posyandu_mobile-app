@@ -1,32 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:posyandu_app/components/navbottom.dart';
-import 'package:posyandu_app/model/database_helper.dart';
-import 'package:posyandu_app/model/user.dart';
 
 class Education extends StatefulWidget {
-  final User user;
   
-  const Education({super.key, required this.user});
+  const Education({super.key, required userData});
 
   @override
   State<Education> createState() => _EducationState();
 }
 
 class _EducationState extends State<Education> {
-  late User? loggedInUser = User(email: '', password: '');
-  final LocalDatabase localDb = LocalDatabase();
-
-  @override
-  void initState() {
-    super.initState();
-    _fetchLoggedInUser();
-  }
-
-  Future<void> _fetchLoggedInUser() async {
-    loggedInUser = await localDb.getUserByEmail(widget.user.email);
-    setState(() {});
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -40,16 +22,8 @@ class _EducationState extends State<Education> {
             fontSize: 25,
           ),
         ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_rounded,
-            color: Color(0xFF0F6ECD),
-          ),
-          onPressed: () {
-            Get.offUntil(MaterialPageRoute(builder: (context) => NavigationButtom(user: loggedInUser!)), (route) => route.isFirst);
-          },
-        ),
-        titleSpacing: 0,
+        titleSpacing: 20,
+        automaticallyImplyLeading: false,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,

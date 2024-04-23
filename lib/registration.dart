@@ -1,9 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:posyandu_app/model/database_helper.dart';
-import 'main.dart';
-import 'model/user.dart';
-import 'package:awesome_dialog/awesome_dialog.dart';
-import 'package:get/get.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -14,13 +9,15 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
+  // final AuthRepository authRepository = AuthRepository();
+  // AuthBloc get _authBloc => widget.authBloc;
+
   final _formKey = GlobalKey<FormState>();
   bool rememberMeValue = false;
   bool isPasswordVisible = false;
   bool _validate = false;
   bool _validateNIK = false;
   bool _validateNama = false;
-  bool _validateGender = false;
   final bool _validateTempatLahir = false;
   final bool _validateTanggalLahir = false;
   bool _validateAlamat = false;
@@ -28,7 +25,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
   bool _validatePassword = false;
   TextEditingController birthDateController = TextEditingController();
   TextEditingController placeOfBirthController = TextEditingController();
-  String selectedGender = 'Laki-laki';
   TextEditingController emailController = TextEditingController();
   TextEditingController nikIbuController = TextEditingController();
   TextEditingController namaIbuController = TextEditingController();
@@ -38,47 +34,32 @@ class _RegistrationPageState extends State<RegistrationPage> {
 
   void registerButtonPressed(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-      User newUser = User(
-        email: emailController.text,
-        nikIbu: nikIbuController.text,
-        namaIbu: namaIbuController.text,
-        gender: selectedGender,
-        placeOfBirth: placeOfBirthController.text,
-        birthDate: birthDateController.text,
-        alamat: alamatController.text,
-        telepon: teleponController.text,
-        password: passwordController.text,
-      );
 
-      int success = await LocalDatabase().insertData(newUser);
+      // int success = await LocalDatabase().insertData(newUser);
 
-      if (success == 1) {
-        AwesomeDialog(
-          // ignore: use_build_context_synchronously
-          context: context,
-          dialogType: DialogType.success,
-          animType: AnimType.bottomSlide,
-          title: 'Sukses',
-          desc: 'Data berhasil terdaftar!',
-        ).show();
+      // if (success == 1) {
+      //   AwesomeDialog(
+      //     // ignore: use_build_context_synchronously
+      //     context: context,
+      //     dialogType: DialogType.success,
+      //     animType: AnimType.bottomSlide,
+      //     title: 'Sukses',
+      //     desc: 'Data berhasil terdaftar!',
+      //   ).show();
 
-        Future.delayed(const Duration(seconds: 2), () {
-          Get.off(() => const LoginPage());
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => const LoginPage()),
-          // );
-        });
-      } else {
-        AwesomeDialog(
-          // ignore: use_build_context_synchronously
-          context: context,
-          dialogType: DialogType.error,
-          animType: AnimType.bottomSlide,
-          title: 'Error',
-          desc: 'Gagal mendaftarkan data. Silakan coba lagi nanti.',
-        ).show();
-      }
+      //   Future.delayed(const Duration(seconds: 2), () {
+      //     Get.off(() => const LoginPage());
+      //   });
+      // } else {
+      //   AwesomeDialog(
+      //     // ignore: use_build_context_synchronously
+      //     context: context,
+      //     dialogType: DialogType.error,
+      //     animType: AnimType.bottomSlide,
+      //     title: 'Error',
+      //     desc: 'Gagal mendaftarkan data. Silakan coba lagi nanti.',
+      //   ).show();
+      // }
     }
   }
 
@@ -260,77 +241,6 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       }
                       return null;
                     },
-                  ),
-                  const SizedBox(height: 15),
-                  Container(
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.white,
-                    ),
-                    child: DropdownButtonFormField(
-                      decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Color(0xFF0F6ECD),
-                            width: 1.5,
-                          ),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Color(0xFF0F6ECD)),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                            color: Colors.red,
-                            width: 1.5,
-                          ),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Colors.red, width: 1.5),
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 17,
-                        ),
-                        errorText: _validateGender
-                            ? 'Jenis Kelamin harus dipilih'
-                            : null,
-                      ),
-                      value: selectedGender,
-                      onChanged: (String? value) {
-                        setState(() {
-                          selectedGender = value!;
-                        });
-                      },
-                      items: ['Laki-laki', 'Perempuan'].map((String value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      hint: const Text(
-                        "Pilih Jenis Kelamin",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF0F6ECD),
-                        ),
-                      ),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          setState(() {
-                            _validateGender = true;
-                          });
-                          return 'Jenis Kelamin harus dipilih';
-                        }
-                        return null;
-                      },
-                    ),
                   ),
                   const SizedBox(height: 15),
                   Row(
@@ -678,12 +588,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const LoginPage(),
-                            ),
-                          );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => const LoginPage(),
+                          //   ),
+                          // );
                         },
                         child: const Text(
                           "Login",
