@@ -1,14 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:posyandu_app/components/card_artikel.dart';
+import 'package:posyandu_app/controller/artikel_controller.dart';
+import 'package:posyandu_app/home/detail_education.dart';
 
 class Education extends StatefulWidget {
-  
-  const Education({super.key, required userData});
+  final dynamic userData;
+  const Education({super.key, required this.userData});
 
   @override
-  State<Education> createState() => _EducationState();
+  // ignore: library_private_types_in_public_api
+  _EducationState createState() => _EducationState();
 }
 
 class _EducationState extends State<Education> {
+  ArtikelController artikelController = ArtikelController();
+
+  @override
+  void initState() {
+    super.initState();
+    if (ArtikelController.artikelData.isEmpty) {
+      // Cek apakah data sudah ada atau belum
+      fetchArtikelData();
+    }
+  }
+
+  Future<void> fetchArtikelData() async {
+    try {
+      await artikelController.fetchArtikelData(
+          context); // Panggil fungsi fetch dari ArtikelController
+      setState(() {}); // Update UI setelah mendapatkan data
+    } catch (e) {
+      print('Error fetching artikel data: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,60 +65,49 @@ class _EducationState extends State<Education> {
               ),
             ),
           ),
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF3F8FE),
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 3,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            width: 317,
-            height: 220,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Your box content here
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(height: 35),
-          Container(
-            alignment: Alignment.center,
-            margin: const EdgeInsets.symmetric(horizontal: 20),
-            decoration: BoxDecoration(
-              color: const Color(0xFFF3F8FE),
-              borderRadius: BorderRadius.circular(15),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.3),
-                  spreadRadius: 3,
-                  blurRadius: 5,
-                  offset: const Offset(0, 2),
-                ),
-              ],
-            ),
-            width: 317,
-            height: 220,
-            child: const Padding(
-              padding: EdgeInsets.all(8.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Your box content here
-                ],
-              ),
-            ),
+          const SizedBox(height: 20),
+          Expanded(
+            child: ArtikelController
+                    .artikelData.isEmpty
+                ? const Center(
+                    child: Text(
+                      'Tidak ada artikel terbaru',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  )
+                : ListView.builder(
+                    itemCount: ArtikelController.artikelData.length > 2
+                        ? 2
+                        : ArtikelController.artikelData.length,
+                    itemBuilder: (context, index) {
+                      final artikel = ArtikelController.artikelData[index];
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 8.0),
+                        child: CardArtikel(
+                          judul: artikel.judul,
+                          gambar: artikel.gambar,
+                          tanggalUpload: artikel.tanggalUpload,
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DetailEducation(
+                                  judul: artikel.judul,
+                                  gambar: artikel.gambar,
+                                  tanggalUpload: artikel.tanggalUpload,
+                                  deskripsi: artikel.deskripsi,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      );
+                    },
+                  ),
           ),
         ],
       ),
