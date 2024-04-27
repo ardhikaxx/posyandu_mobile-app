@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:posyandu_app/controller/auth_controller.dart';
+import 'package:posyandu_app/login.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
@@ -9,10 +11,8 @@ class RegistrationPage extends StatefulWidget {
 }
 
 class _RegistrationPageState extends State<RegistrationPage> {
-  // final AuthRepository authRepository = AuthRepository();
-  // AuthBloc get _authBloc => widget.authBloc;
-
   final _formKey = GlobalKey<FormState>();
+  String? selectedBloodType;
   bool rememberMeValue = false;
   bool isPasswordVisible = false;
   bool _validate = false;
@@ -28,38 +28,28 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController nikIbuController = TextEditingController();
   TextEditingController namaIbuController = TextEditingController();
+  TextEditingController nikAyahController = TextEditingController();
+  TextEditingController namaAyahController = TextEditingController();
   TextEditingController alamatController = TextEditingController();
   TextEditingController teleponController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
 
   void registerButtonPressed(BuildContext context) async {
     if (_formKey.currentState!.validate()) {
-
-      // int success = await LocalDatabase().insertData(newUser);
-
-      // if (success == 1) {
-      //   AwesomeDialog(
-      //     // ignore: use_build_context_synchronously
-      //     context: context,
-      //     dialogType: DialogType.success,
-      //     animType: AnimType.bottomSlide,
-      //     title: 'Sukses',
-      //     desc: 'Data berhasil terdaftar!',
-      //   ).show();
-
-      //   Future.delayed(const Duration(seconds: 2), () {
-      //     Get.off(() => const LoginPage());
-      //   });
-      // } else {
-      //   AwesomeDialog(
-      //     // ignore: use_build_context_synchronously
-      //     context: context,
-      //     dialogType: DialogType.error,
-      //     animType: AnimType.bottomSlide,
-      //     title: 'Error',
-      //     desc: 'Gagal mendaftarkan data. Silakan coba lagi nanti.',
-      //   ).show();
-      // }
+      await AuthController.register(
+        context,
+        nikIbu: nikIbuController.text,
+        namaIbu: namaIbuController.text,
+        nikAyah: nikAyahController.text,
+        namaAyah: namaAyahController.text,
+        alamat: alamatController.text,
+        telepon: teleponController.text,
+        email: emailController.text,
+        golDarah: selectedBloodType!,
+        tempatLahir: placeOfBirthController.text,
+        tanggalLahir: birthDateController.text,
+        password: passwordController.text,
+      );
     }
   }
 
@@ -385,6 +375,177 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ],
                   ),
                   const SizedBox(height: 15),
+                  DropdownButtonFormField<String>(
+                    value: selectedBloodType,
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedBloodType = newValue;
+                      });
+                    },
+                    items: <String>[
+                      'A+',
+                      'A-',
+                      'B+',
+                      'B-',
+                      'O+',
+                      'O-',
+                      'AB+',
+                      'AB-'
+                    ].map((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF0F6ECD),
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF0F6ECD)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
+                      ),
+                      hintText: "Pilih golongan darah",
+                      labelText: "Golongan Darah",
+                      labelStyle: const TextStyle(
+                        color: Color(0xFF0F6ECD),
+                        fontSize: 16,
+                      ),
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Golongan darah tidak boleh kosong';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextFormField(
+                    keyboardType: TextInputType.number,
+                    controller: nikAyahController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF0F6ECD),
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF0F6ECD)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
+                      ),
+                      hintText: "Masukkan NIK Ayah...",
+                      labelText: "NIK Ayah",
+                      labelStyle: const TextStyle(
+                        color: Color(0xFF0F6ECD),
+                        fontSize: 16,
+                      ),
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                      errorText: _validateNIK ? 'NIK tidak boleh kosong' : null,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        setState(() {
+                          _validateNIK = true;
+                        });
+                        return 'NIK Ayah tidak boleh kosong';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  TextFormField(
+                    controller: namaAyahController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF0F6ECD),
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF0F6ECD)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
+                      ),
+                      hintText: "Masukkan nama Ayah...",
+                      labelText: "Nama Ayah",
+                      labelStyle: const TextStyle(
+                        color: Color(0xFF0F6ECD),
+                        fontSize: 16,
+                      ),
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                      errorText:
+                          _validateNama ? 'Nama tidak boleh kosong' : null,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        setState(() {
+                          _validateNama = true;
+                        });
+                        return 'Nama Ayah tidak boleh kosong';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
                   TextFormField(
                     controller: alamatController,
                     decoration: InputDecoration(
@@ -588,12 +749,12 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                       GestureDetector(
                         onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //     builder: (context) => const LoginPage(),
-                          //   ),
-                          // );
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => LoginPage(),
+                            ),
+                          );
                         },
                         child: const Text(
                           "Login",

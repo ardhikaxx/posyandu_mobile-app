@@ -1,7 +1,7 @@
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:posyandu_app/controller/AuthController.dart';
+import 'package:posyandu_app/controller/auth_controller.dart';
 import 'package:posyandu_app/registration.dart';
 
 class LoginPage extends StatefulWidget {

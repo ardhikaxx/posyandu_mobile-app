@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:posyandu_app/controller/AuthController.dart';
+import 'package:posyandu_app/controller/auth_controller.dart';
 import 'package:posyandu_app/home/editprofile.dart';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:posyandu_app/model/user.dart';
@@ -100,7 +100,7 @@ class _ProfileState extends State<Profile> {
                     ),
                     const SizedBox(height: 1),
                     Text(
-                      widget.userData.nikIbu,
+                      widget.userData.nikIbu.toString(),
                       style: const TextStyle(
                         fontSize: 18,
                         color: Colors.white,
