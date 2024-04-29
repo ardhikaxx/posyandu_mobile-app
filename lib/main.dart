@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:posyandu_app/Login.dart';
+import 'package:posyandu_app/auth/login.dart';
 import 'package:posyandu_app/controller/global.dart';
 
 void main() {
