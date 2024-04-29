@@ -8,7 +8,7 @@ class ArtikelController {
   Future<void> fetchArtikelData(BuildContext context) async {
     try {
       final responseData = await http.get(
-        Uri.parse("http://192.168.18.50:8000/api/artikels"),
+        Uri.parse("http://10.10.180.214:8000/api/artikels"),
       );
       if (responseData.statusCode == 200) {
         final jsonGet = jsonDecode(responseData.body) as Map<String, dynamic>;

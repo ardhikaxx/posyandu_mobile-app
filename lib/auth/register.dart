@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:posyandu_app/controller/auth_controller.dart';
-import 'package:posyandu_app/login.dart';
+import 'package:posyandu_app/auth/login.dart';
 
 class RegistrationPage extends StatefulWidget {
   const RegistrationPage({super.key});
