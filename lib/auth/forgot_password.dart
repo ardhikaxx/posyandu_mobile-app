@@ -53,6 +53,7 @@ class ForgotPassword extends StatelessWidget {
             fontSize: 25,
           ),
         ),
+        automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF0F6ECD),
         leading: IconButton(
           icon: const Icon(
