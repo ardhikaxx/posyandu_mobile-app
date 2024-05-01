@@ -3,15 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:posyandu_app/controller/auth_controller.dart';
 
-class NewChangePassword extends StatelessWidget {
-  final String email; 
+class NewChangePassword extends StatefulWidget {
+  final String email;
   const NewChangePassword({super.key, required this.email});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController newPasswordController = TextEditingController();
-    TextEditingController repeatPasswordController = TextEditingController();
+  // ignore: library_private_types_in_public_api
+  _NewChangePasswordState createState() => _NewChangePasswordState();
+}
 
+class _NewChangePasswordState extends State<NewChangePassword> {
+  TextEditingController newPasswordController = TextEditingController();
+  TextEditingController repeatPasswordController = TextEditingController();
+  bool isPasswordVisible = false;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -22,6 +29,7 @@ class NewChangePassword extends StatelessWidget {
             fontSize: 25,
           ),
         ),
+        automaticallyImplyLeading: false,
         backgroundColor: const Color(0xFF0F6ECD),
         leading: IconButton(
           icon: const Icon(
@@ -76,6 +84,7 @@ class NewChangePassword extends StatelessWidget {
                   ),
                   child: TextField(
                     controller: newPasswordController,
+                    obscureText: !isPasswordVisible,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -88,8 +97,8 @@ class NewChangePassword extends StatelessWidget {
                         borderRadius: BorderRadius.circular(10),
                         borderSide: const BorderSide(color: Color(0xFF0F6ECD)),
                       ),
-                      hintText: "Masukkan password baru anda...",
-                      labelText: "Password Baru",
+                      hintText: "Masukkan password anda...",
+                      labelText: "Password",
                       labelStyle: const TextStyle(
                         color: Color(0xFF0F6ECD),
                         fontSize: 16,
@@ -100,6 +109,22 @@ class NewChangePassword extends StatelessWidget {
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 17),
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Icon(
+                            isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: const Color(0xFF0F6ECD),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -112,6 +137,7 @@ class NewChangePassword extends StatelessWidget {
                   ),
                   child: TextField(
                     controller: repeatPasswordController,
+                    obscureText: !isPasswordVisible,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -125,7 +151,7 @@ class NewChangePassword extends StatelessWidget {
                         borderSide: const BorderSide(color: Color(0xFF0F6ECD)),
                       ),
                       hintText: "Masukkan kembali password anda...",
-                      labelText: "Ulangi Password",
+                      labelText: "Password",
                       labelStyle: const TextStyle(
                         color: Color(0xFF0F6ECD),
                         fontSize: 16,
@@ -136,6 +162,22 @@ class NewChangePassword extends StatelessWidget {
                       ),
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 17),
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          setState(() {
+                            isPasswordVisible = !isPasswordVisible;
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: Icon(
+                            isPasswordVisible
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: const Color(0xFF0F6ECD),
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -176,7 +218,8 @@ class NewChangePassword extends StatelessWidget {
                         return;
                       }
 
-                      AuthController.changePassword(context, email, newPassword);
+                      AuthController.changePassword(
+                          context, widget.email, newPassword);
                     },
                     child: const Text(
                       "Simpan",

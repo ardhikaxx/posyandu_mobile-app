@@ -20,7 +20,7 @@ class AuthController {
   static Future<void> login(
       BuildContext context, String email, String password) async {
     try {
-      const String apiUrl = "http://10.10.180.214:8000/api/auth/login";
+      const String apiUrl = "http://192.168.18.44:8000/api/auth/login";
       final response = await http.post(Uri.parse(apiUrl),
           body: {'email_orang_tua': email, 'password_orang_tua': password});
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -38,7 +38,7 @@ class AuthController {
   static Future<void> tokenRequest(BuildContext context, String token) async {
     try {
       final responseData = await http.get(
-        Uri.parse("http://10.10.180.214:8000/api/auth/me"),
+        Uri.parse("http://192.168.18.44:8000/api/auth/me"),
         headers: {'Authorization': 'Bearer $token'},
       );
       if (responseData.statusCode == 200) {
@@ -55,7 +55,7 @@ class AuthController {
 
   static Future<void> logout(BuildContext context, String token) async {
     try {
-      const String apiUrl = "http://10.10.180.214:8000/api/auth/logout";
+      const String apiUrl = "http://192.168.18.44:8000/api/auth/logout";
       final response = await http.post(Uri.parse(apiUrl), headers: {
         'Authorization': 'Bearer $_token',
       });
@@ -88,7 +88,7 @@ class AuthController {
     required String password,
   }) async {
     try {
-      const String apiUrl = "http://10.10.180.214:8000/api/auth/register";
+      const String apiUrl = "http://192.168.18.44:8000/api/auth/register";
       final response = await http.post(Uri.parse(apiUrl), body: {
         'nik_ibu': nikIbu,
         'nama_ibu': namaIbu,
@@ -144,7 +144,7 @@ class AuthController {
 
   static Future<bool> checkEmail(BuildContext context, String email) async {
     try {
-      const String apiUrl = "http://10.10.180.214:8000/api/auth/check-email";
+      const String apiUrl = "http://192.168.18.44:8000/api/auth/check-email";
       final response = await http.post(
         Uri.parse(apiUrl),
         body: {'email_orang_tua': email},
@@ -160,9 +160,11 @@ class AuthController {
     return false;
   }
 
-  static Future<void> changePassword(BuildContext context, String email, String newPassword) async {
+  static Future<void> changePassword(
+      BuildContext context, String email, String newPassword) async {
     try {
-      const String apiUrl = "http://10.10.180.214:8000/api/auth/change-password";
+      const String apiUrl =
+          "http://192.168.18.44:8000/api/auth/change-password";
       final response = await http.post(
         Uri.parse(apiUrl),
         body: {
@@ -182,12 +184,23 @@ class AuthController {
           title: 'Success',
           desc: message,
         ).show().then((_) {
-          // Tambahkan perintah untuk mengarahkan ke LoginPage
           Future.delayed(const Duration(seconds: 2), () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => LoginPage()),
-            );
+            // Tampilkan dialog konfirmasi
+            AwesomeDialog(
+              context: context,
+              dialogType: DialogType.info,
+              animType: AnimType.bottomSlide,
+              title: 'Confirmation',
+              desc: 'Are you sure you want to proceed to login page?',
+              btnOkText: 'OK',
+              btnOkOnPress: () {
+                // Arahkan pengguna ke halaman login
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (context) => LoginPage()),
+                );
+              },
+            ).show();
           });
         });
       } else {
