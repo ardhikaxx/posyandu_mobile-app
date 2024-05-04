@@ -26,6 +26,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController birthDateController = TextEditingController();
   TextEditingController placeOfBirthController = TextEditingController();
   TextEditingController emailController = TextEditingController();
+  TextEditingController noKKController = TextEditingController();
   TextEditingController nikIbuController = TextEditingController();
   TextEditingController namaIbuController = TextEditingController();
   TextEditingController nikAyahController = TextEditingController();
@@ -38,6 +39,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (_formKey.currentState!.validate()) {
       await AuthController.register(
         context,
+        noKK: noKKController.text,
         nikIbu: nikIbuController.text,
         namaIbu: namaIbuController.text,
         nikAyah: nikAyahController.text,
@@ -81,7 +83,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                   const SizedBox(height: 32),
                   TextFormField(
-                    controller: emailController,
+                    keyboardType: TextInputType.number,
+                    controller: noKKController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -106,8 +109,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderSide:
                             const BorderSide(color: Colors.red, width: 1.5),
                       ),
-                      hintText: "Masukkan email anda...",
-                      labelText: "Email",
+                      hintText: "Masukkan nomor kartu keluarga anda...",
+                      labelText: "Nomor Kartu Keluarga",
                       labelStyle: const TextStyle(
                         color: Color(0xFF0F6ECD),
                         fontSize: 16,
@@ -120,14 +123,14 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         horizontal: 16,
                         vertical: 17,
                       ),
-                      errorText: _validate ? 'Email tidak boleh kosong' : null,
+                      errorText: _validate ? 'Nomor kartu keluarga tidak boleh kosong' : null,
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         setState(() {
                           _validate = true;
                         });
-                        return 'Email tidak boleh kosong';
+                        return 'Nomor kartu keluarga tidak boleh kosong';
                       }
                       return null;
                     },
@@ -160,7 +163,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderSide:
                             const BorderSide(color: Colors.red, width: 1.5),
                       ),
-                      hintText: "Masukkan nik anda...",
+                      hintText: "Masukkan NIK anda...",
                       labelText: "NIK",
                       labelStyle: const TextStyle(
                         color: Color(0xFF0F6ECD),
@@ -184,6 +187,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   ),
                   const SizedBox(height: 15),
                   TextFormField(
+                    keyboardType: TextInputType.name,
                     controller: namaIbuController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -209,7 +213,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderSide:
                             const BorderSide(color: Colors.red, width: 1.5),
                       ),
-                      hintText: "Masukkan nama anda...",
+                      hintText: "Masukkan Nama anda...",
                       labelText: "Nama",
                       labelStyle: const TextStyle(
                         color: Color(0xFF0F6ECD),
@@ -383,14 +387,10 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       });
                     },
                     items: <String>[
-                      'A+',
-                      'A-',
-                      'B+',
-                      'B-',
-                      'O+',
-                      'O-',
-                      'AB+',
-                      'AB-'
+                      'A',
+                      'B',
+                      'AB',
+                      'O'
                     ].map((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
@@ -421,7 +421,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderSide:
                             const BorderSide(color: Colors.red, width: 1.5),
                       ),
-                      hintText: "Pilih golongan darah",
+                      hintText: "Pilih Golongan Darah",
                       labelText: "Golongan Darah",
                       labelStyle: const TextStyle(
                         color: Color(0xFF0F6ECD),
@@ -434,7 +434,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Golongan darah tidak boleh kosong';
+                        return 'Golongan Darah tidak boleh kosong';
                       }
                       return null;
                     },
@@ -495,6 +495,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.name,
                     controller: namaAyahController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -520,7 +521,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderSide:
                             const BorderSide(color: Colors.red, width: 1.5),
                       ),
-                      hintText: "Masukkan nama Ayah...",
+                      hintText: "Masukkan Nama Ayah...",
                       labelText: "Nama Ayah",
                       labelStyle: const TextStyle(
                         color: Color(0xFF0F6ECD),
@@ -547,6 +548,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                     height: 15,
                   ),
                   TextFormField(
+                    keyboardType: TextInputType.streetAddress,
                     controller: alamatController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
@@ -623,8 +625,8 @@ class _RegistrationPageState extends State<RegistrationPage> {
                         borderSide:
                             const BorderSide(color: Colors.red, width: 1.5),
                       ),
-                      hintText: "Masukkan nomor telepon anda...",
-                      labelText: "Telepon",
+                      hintText: "Masukkan Nomor Telepon anda...",
+                      labelText: "Nomor Telepon",
                       labelStyle: const TextStyle(
                         color: Color(0xFF0F6ECD),
                         fontSize: 16,
@@ -643,6 +645,58 @@ class _RegistrationPageState extends State<RegistrationPage> {
                           _validateTelepon = true;
                         });
                         return 'Nomor telepon tidak boleh kosong';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    keyboardType: TextInputType.emailAddress,
+                    controller: emailController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF0F6ECD),
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF0F6ECD)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
+                      ),
+                      hintText: "Masukkan Email anda...",
+                      labelText: "Email",
+                      labelStyle: const TextStyle(
+                        color: Color(0xFF0F6ECD),
+                        fontSize: 16,
+                      ),
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                      errorText: _validateTelepon
+                          ? 'Email tidak boleh kosong'
+                          : null,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        setState(() {
+                          _validateTelepon = true;
+                        });
+                        return 'Email tidak boleh kosong';
                       }
                       return null;
                     },
