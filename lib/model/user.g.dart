@@ -7,7 +7,7 @@ part of 'user.dart';
 // **************************************************************************
 
 UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
-      noKK: json['noKK'] as String,
+      noKk: json['noKk'] as String,
       nikIbu: json['nikIbu'] as String,
       namaIbu: json['namaIbu'] as String,
       tempatLahirIbu: json['tempatLahirIbu'] as String,
@@ -16,14 +16,14 @@ UserData _$UserDataFromJson(Map<String, dynamic> json) => UserData(
       nikAyah: json['nikAyah'] as String,
       namaAyah: json['namaAyah'] as String,
       alamat: json['alamat'] as String,
-      telepon: json['telepon'] as String,
+      telepon: (json['telepon'] as num).toInt(),
       emailOrangTua: json['emailOrangTua'] as String,
       createdAt: json['createdAt'] as String,
       updatedAt: json['updatedAt'] as String,
     );
 
 Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
-      'noKK': instance.noKK,
+      'noKk': instance.noKk,
       'nikIbu': instance.nikIbu,
       'namaIbu': instance.namaIbu,
       'tempatLahirIbu': instance.tempatLahirIbu,
