@@ -83,6 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                         color: Colors.white,
                       ),
                       child: TextField(
+                        //keyboardType: TextInputType.emailAddress,
                         controller: emailController,
                         decoration: InputDecoration(
                           enabledBorder: OutlineInputBorder(
@@ -231,15 +232,15 @@ class _LoginPageState extends State<LoginPage> {
 
                       if (email.isEmpty && password.isEmpty) {
                         _showAwesomeDialog(
-                            "Email dan password tidak diisi", DialogType.error);
+                            "Email dan Password Tidak Boleh Kosong", DialogType.error);
                         return;
                       } else if (email.isEmpty) {
                         _showAwesomeDialog(
-                            "Email tidak diisi", DialogType.error);
+                            "Email Tidak Boleh Kosong", DialogType.error);
                         return;
                       } else if (password.isEmpty) {
                         _showAwesomeDialog(
-                            "Password tidak diisi", DialogType.error);
+                            "Password Tidak Boleh Kosong", DialogType.error);
                         return;
                       }
 

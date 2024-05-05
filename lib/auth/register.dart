@@ -39,7 +39,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
     if (_formKey.currentState!.validate()) {
       await AuthController.register(
         context,
-        noKK: noKKController.text,
+        noKk: noKKController.text,
         nikIbu: nikIbuController.text,
         namaIbu: namaIbuController.text,
         nikAyah: nikAyahController.text,
