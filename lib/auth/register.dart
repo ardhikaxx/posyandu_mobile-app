@@ -28,6 +28,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController noKKController = TextEditingController();
   TextEditingController nikIbuController = TextEditingController();
+  TextEditingController noKKController = TextEditingController();
   TextEditingController namaIbuController = TextEditingController();
   TextEditingController nikAyahController = TextEditingController();
   TextEditingController namaAyahController = TextEditingController();
@@ -85,6 +86,55 @@ class _RegistrationPageState extends State<RegistrationPage> {
                   TextFormField(
                     keyboardType: TextInputType.number,
                     controller: noKKController,
+                    decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF0F6ECD),
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(color: Color(0xFF0F6ECD)),
+                      ),
+                      errorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.red,
+                          width: 1.5,
+                        ),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide:
+                            const BorderSide(color: Colors.red, width: 1.5),
+                      ),
+                      hintText: "Masukkan nomor kartu keluarga anda...",
+                      labelText: "Nomor Kartu Keluarga",
+                      labelStyle: const TextStyle(
+                        color: Color(0xFF0F6ECD),
+                        fontSize: 16,
+                      ),
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                        color: Colors.black.withOpacity(0.6),
+                      ),
+                      errorText: _validateNIK ? 'Nomor Kartu Keluarga tidak boleh kosong' : null,
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        setState(() {
+                          _validateNIK = true;
+                        });
+                        return 'Nomor Kartu Keluarga tidak boleh kosong';
+                      }
+                      return null;
+                    },
+                  ),
+                  const SizedBox(height: 15),
+                  TextFormField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),

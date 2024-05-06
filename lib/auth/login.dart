@@ -244,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                         return;
                       }
 
-                      AuthController.login(context, email, password);
+                      await AuthController.login(context, email, password);
                     },
                     child: const Text(
                       "LOGIN",

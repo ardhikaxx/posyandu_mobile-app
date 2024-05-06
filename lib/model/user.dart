@@ -4,7 +4,7 @@ part 'user.g.dart';
 
 @JsonSerializable()
 class UserData {
-  final String noKk;
+  final int noKk;
   final String nikIbu;
   final String namaIbu;
   final String tempatLahirIbu;
@@ -13,7 +13,7 @@ class UserData {
   final String nikAyah;
   final String namaAyah;
   final String alamat;
-  final int telepon;
+  final String telepon;
   final String emailOrangTua;
   final String createdAt;
   final String updatedAt;
