@@ -33,7 +33,7 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) => <String, dynamic>{
       'nama_ayah': instance.namaAyah,
       'alamat': instance.alamat,
       'telepon': instance.telepon,
-      'email_orang_tua': instance.emailOrangTua,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
+      'emailOrangTua': instance.emailOrangTua,
+      'createdAt': instance.createdAt,
+      'updatedAt': instance.updatedAt,
     };
